@@ -9,7 +9,11 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DB {
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class WSDatabase {
 	
 	final String JDBC_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
 	final String URL = "jdbc:derby:webshopDB;create=true";
@@ -18,12 +22,16 @@ public class DB {
 	Connection conn = null;
 	Statement createStatement = null;
 	
-	public DB() {
+	public Connection getConn() {
+		return conn;
+	}
+	
+	public WSDatabase() {
 		try {
 			conn = DriverManager.getConnection(URL);
 			System.out.println("DB Connection was successful!");
 		} catch (SQLException ex) {
-			Logger.getLogger(DB.class.getName()).log(Level.SEVERE,null,ex);
+			Logger.getLogger(WSDatabase.class.getName()).log(Level.SEVERE,null,ex);
 			System.out.println("Connection ERROR! \n"+ex);
 		}
 		
@@ -31,7 +39,7 @@ public class DB {
 			try {
 				createStatement = conn.createStatement();
 			} catch (SQLException ex) {
-				Logger.getLogger(DB.class.getName()).log(Level.SEVERE,null,ex);
+				Logger.getLogger(WSDatabase.class.getName()).log(Level.SEVERE,null,ex);
 				System.out.println("CreateStatement ERROR \n"+ex);
 			}
 		}
@@ -39,28 +47,29 @@ public class DB {
 		DatabaseMetaData dbmd = null;
 		try {
 			dbmd = conn.getMetaData();
+			System.out.println("Loading metadata was successful!");
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
-			Logger.getLogger(DB.class.getName()).log(Level.SEVERE,null,ex);
+			Logger.getLogger(WSDatabase.class.getName()).log(Level.SEVERE,null,ex);
 			System.out.println("DatabaseMetaData ERROR! \n"+ex);
 		}
 		
 		try {
-			ResultSet rs1 = dbmd.getTables(null, "APP", "PRODUCT", null);
+			ResultSet rs1 = dbmd.getTables(null, "APP", "PRODUCTS", null);
 			if (!rs1.next()) {
-				createStatement.execute("create table PRODUCT(pid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), pname varchar(60) NOT NULL, pprice int, pweight int, pdescription varchar(200))");
+				createStatement.execute("create table PRODUCTS(pid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), pname varchar(60) NOT NULL, pprice double, pweight int, pdescription varchar(200))");
 			}
 			ResultSet rs2 = dbmd.getTables(null, "APP", "STOCK", null);
 			if (!rs2.next()) {
-				createStatement.execute("create table STOCK(sid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), pid int NOT NULL, pammount int NOT NULL, pshipingprice int, shipingtime int)");
+				createStatement.execute("create table STOCK(sid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), pid int NOT NULL, pammount int NOT NULL, pshipingprice double, shipingtime int)");
 			}
 			ResultSet rs3 = dbmd.getTables(null, "APP", "USERS", null);
 			if (!rs3.next()) {
-				createStatement.execute("create table USERS(uid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), uname varchar(60), ufirst varchar(60), ulastname varchar(60), upassword varchar(60))");
+				createStatement.execute("create table USERS(uid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), username varchar(60), ufirstname varchar(60), ulastname varchar(60), upassword varchar(60))");
 			}
 			ResultSet rs4 = dbmd.getTables(null, "APP", "ORDERITEMS", null);
 			if (!rs4.next()) {
-				createStatement.execute("create table ORDERITEMS(iid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),oid int NOT NULL, pid int NOT NULL, pammount int NOT NULL)");
+				createStatement.execute("create table ORDERITEMS(iid INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),oid int NOT NULL, pid int NOT NULL, pamount int NOT NULL)");
 			}
 			ResultSet rs5 = dbmd.getTables(null, "APP", "ORDERS", null);
 			if (!rs5.next()) {
@@ -68,10 +77,8 @@ public class DB {
 			}
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
-			Logger.getLogger(DB.class.getName()).log(Level.SEVERE,null,ex);
+			Logger.getLogger(WSDatabase.class.getName()).log(Level.SEVERE,null,ex);
 			System.out.println("Database table creation ERROR! \n"+ex);
 		}
-		
-		
 	}
 }
