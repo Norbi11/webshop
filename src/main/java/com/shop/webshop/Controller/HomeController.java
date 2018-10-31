@@ -1,4 +1,4 @@
-package com.shop.webshop.Controller;
+package com.shop.webshop.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
