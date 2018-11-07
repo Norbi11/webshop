@@ -12,10 +12,8 @@ public class HomeController {
 	
 	@Autowired
 	private UsersBl ubl;
-	Users u = new Users("adrian", "adrian","soltesz", "asdf");
 	@RequestMapping("/")
 	public String Index() {
-		ubl.Insert(u);
 		return "I'm running properly!";
 	}
 }

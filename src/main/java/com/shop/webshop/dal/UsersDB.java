@@ -6,26 +6,37 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import com.shop.webshop.database.WSDatabase;
+import com.shop.webshop.database.HibernateUtils;
 import com.shop.webshop.dom.Users;
 
+@Repository
 public class UsersDB implements IDatabaseHandler<Users>{
 
-	private WSDatabase db;
 	private Session session;
-	private Transaction transaction;
+	@Autowired
+	private SessionFactory sessionFactory;
 	
 	public UsersDB(){
-		SessionFactory sessionFactory = new Configuration().configure().addAnnotatedClass(Users.class).buildSessionFactory();
-		Session session = sessionFactory.openSession();
-		transaction  = session.beginTransaction();
+		createSession();
+	}
+	
+	private void createSession() {
+	    sessionFactory = HibernateUtils.getSessionfactory();
+		Session session = sessionFactory.getCurrentSession();
 	}
 	
 	@Override
 	public List<Users> GetAll() {
-		// TODO Auto-generated method stub
-		return null;
+		session.getTransaction().begin();
+		String hql = "from " + Users.class.getName();
+		Query<Users> query = session.createQuery(hql,Users.class);
+		List<Users> users = query.getResultList();
+		session.getTransaction().commit();
+		return users;
 	}
 
 	@Override
@@ -36,8 +47,7 @@ public class UsersDB implements IDatabaseHandler<Users>{
 
 	@Override
 	public void Insert(Users user) {
-		session.save(user);
-		transaction.commit();
+		
 	}
 
 	@Override
