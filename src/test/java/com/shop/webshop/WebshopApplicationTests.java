@@ -16,7 +16,7 @@ public class WebshopApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
+	/*
 	@Test
 	public void HomeController() {
 		HomeController hc = new HomeController();
@@ -24,4 +24,5 @@ public class WebshopApplicationTests {
 		String actual = hc.Index();
 		assertEquals(expected,actual);
 	}
+	*/
 }

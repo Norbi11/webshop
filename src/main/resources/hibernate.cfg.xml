@@ -15,5 +15,11 @@
 		
 		<property name="current_session_context_class">thread</property>
 		
+		<mapping class="com.shop.webshop.dom.Users"/>
+		<mapping class="com.shop.webshop.dom.Products"/>
+		<mapping class="com.shop.webshop.dom.Stock"/>
+		<mapping class="com.shop.webshop.dom.Orderitems"/>
+		<mapping class="com.shop.webshop.dom.Orders"/>
+		
 	</session-factory>
 </hibernate-configuration>

@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.shop.webshop.database.HibernateUtils;
@@ -16,9 +13,8 @@ import com.shop.webshop.dom.Users;
 @Repository
 public class UsersDB implements IDatabaseHandler<Users>{
 
-	private Session session;
-	@Autowired
 	private SessionFactory sessionFactory;
+	private Session session;
 	
 	public UsersDB(){
 		createSession();
@@ -26,7 +22,7 @@ public class UsersDB implements IDatabaseHandler<Users>{
 	
 	private void createSession() {
 	    sessionFactory = HibernateUtils.getSessionfactory();
-		Session session = sessionFactory.getCurrentSession();
+	    session = sessionFactory.getCurrentSession();
 	}
 	
 	@Override
