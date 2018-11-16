@@ -8,38 +8,38 @@ import org.springframework.stereotype.Service;
 
 import com.shop.webshop.dal.DB;
 import com.shop.webshop.dal.IDatabaseHandler;
-import com.shop.webshop.dom.Users;
+import com.shop.webshop.dom.Products;
 
 @Service
 @Scope(value="singleton")
-public class UsersBl implements IDatabaseHandler<Users> {
+public class ProductsBl implements IDatabaseHandler<Products> {
 	
-	private DB<Users> db;
+	private DB<Products> db;
 	
 	@Autowired
-	private UsersBl(DB<Users> db) {
+	private ProductsBl(DB<Products> db) {
 		this.db = db;
-		db.setGenericType(Users.class);
+		db.setGenericType(Products.class);
 	}
 	
 	@Override
-	public List<Users> GetAll() {
+	public List<Products> GetAll() {
 		return db.GetAll();
 	}
 
 	@Override
-	public Users GetById(int id) {
+	public Products GetById(int id) {
 		return db.GetById(id);
 	}
 
 	@Override
-	public void Insert(Users user) {
-		db.Insert(user);
+	public void Insert(Products product) {
+		db.Insert(product);
 	}
 
 	@Override
-	public void Update(Users user) {
-		db.Update(user);
+	public void Update(Products product) {
+		db.Update(product);
 	}
 
 	@Override

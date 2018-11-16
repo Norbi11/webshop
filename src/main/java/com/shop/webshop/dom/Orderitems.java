@@ -31,7 +31,6 @@ public class Orderitems implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "IID", unique = true, nullable = false)
 	public int getIid() {
 		return this.iid;

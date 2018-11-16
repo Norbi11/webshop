@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SpringMVC + Thymeleaf + Bootstrap 4 Table Example</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<h1>Products Table</h1>
+	<div class="row col-md-7 table-responsive">
+		<table id="productsTable" class="table">
+			<thead>
+				<tr>
+					<th>Product ID</th>
+					<th>Product name</th>
+					<th>Price ($)</th>
+					<th>Weight (g)</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				 <tr th:each="product, rowStat: ${productList}"
+				 	 th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+			        <td th:text="${product.pid}">1</td>
+					<td th:text="${product.pname}">Jack</td>
+			        <td th:text="${product.pprice}">23</td>
+			        <td th:text="${product.pweight}">AVE N</td>
+			        <td th:text="${product.pdescription}">77587</td>
+			    </tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+</html>
